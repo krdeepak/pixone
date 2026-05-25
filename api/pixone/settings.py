@@ -83,7 +83,7 @@ _cors_origins = config("CORS_ALLOWED_ORIGINS", default="")
 CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_origins.split(",") if o.strip()]
 
 # Image storage backend: "local" | "s3"
-IMAGE_STORAGE_BACKEND = config("IMAGE_STORAGE_BACKEND", default="local")
+IMAGE_STORAGE_BACKEND = config("IMAGE_STORAGE_BACKEND", default="s3")
 
 # AWS (required when IMAGE_STORAGE_BACKEND=s3)
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID", default="")
