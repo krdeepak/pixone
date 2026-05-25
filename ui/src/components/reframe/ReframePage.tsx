@@ -14,7 +14,7 @@ const SMART_MODES: { value: SmartReframeMode; label: string; desc: string }[] = 
 const ASPECT_PRESETS = ["1:1", "4:3", "16:9", "9:16", "3:4"];
 
 export default function ReframePage() {
-  const [tab, setTab] = useState<Tab>("manual");
+  const [tab, setTab] = useState<Tab>("smart");
 
   // shared
   const [imageFile, setImageFile] = useState<File | null>(null);
