@@ -75,8 +75,7 @@ export default function FaceDetectPage() {
               src={imageUrl}
               alt="Upload"
               className="rounded border border-gray-700 max-w-full block"
-              onLoad={handleImageLoad}
-              onResize={handleImageResize}
+              onLoad={() => { handleImageLoad(); handleImageResize(); }}
             />
             {faces.map((face, i) => (
               <div
