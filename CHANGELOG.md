@@ -15,6 +15,19 @@ Format: `## [version] — YYYY-MM-DD` with sections Added / Changed / Fixed / Re
 - `django-cors-headers` with `CORS_ALLOWED_ORIGINS` env var for cross-origin frontend
 - `STATIC_ROOT` + compressed manifest static file storage for `collectstatic`
 - `VITE_API_URL` env var support in frontend API client for split-domain deploys
+- Media files served in production via explicit URL route (fallback for local storage)
+
+### Changed
+
+- S3 is now the default storage backend
+- S3 results stored under `test/kd/` prefix in `pixfirst-fr` bucket
+
+### Fixed
+
+- `DATABASE_URL` parsing broken for `postgresql://` scheme
+- `import.meta.env` TypeScript error — added `vite/client` types
+- Removed invalid `onResize` prop from `<img>` in `FaceDetectPage`
+- Gunicorn not starting on Railway — Procfile now uses `uv run`
 
 ---
 
