@@ -6,6 +6,15 @@ Format: `## [version] — YYYY-MM-DD` with sections Added / Changed / Fixed / Re
 
 ---
 
+## [0.3.0] — 2026-05-25
+
+### Added
+
+- Image URL input on the reframe page — users can now paste an S3 or any public image URL instead of uploading a file; both manual and smart reframe support it
+- Backend reframe endpoints (`/reframe/` and `/reframe/smart/`) now accept `image_url` form field as an alternative to file upload — the backend fetches and processes the URL server-side
+
+---
+
 ## [0.2.0] — 2026-05-25
 
 ### Added
