@@ -6,7 +6,7 @@ from .base import ImageStorage
 
 class S3ImageStorage:
     def upload(self, data: bytes, folder: str, filename: str) -> str:
-        key = f"pixone/{folder}/{int(time.time())}_{filename}"
+        key = f"test/kd/{folder}/{int(time.time())}_{filename}"
         boto3.client(
             "s3",
             aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
