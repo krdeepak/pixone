@@ -54,7 +54,7 @@ WSGI_APPLICATION = "pixone.wsgi.application"
 
 # Database
 _db_url = config("DATABASE_URL", default="postgres://pixone:pixone@localhost:5432/pixone")
-_db_parts = _db_url.replace("postgres://", "").replace("postgresql://", "")
+_db_parts = _db_url.replace("postgresql://", "").replace("postgres://", "")
 _user_pass, _host_db = _db_parts.split("@")
 _user, _pass = _user_pass.split(":")
 _host_port, _db_name = _host_db.split("/")
