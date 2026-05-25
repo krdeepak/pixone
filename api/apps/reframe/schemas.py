@@ -9,6 +9,7 @@ class ReframeParams(Schema):
     height: int
     output_width: int | None = None
     output_height: int | None = None
+    image_url: str | None = None
 
 
 class SmartReframeMode(str, Enum):
@@ -19,8 +20,8 @@ class SmartReframeMode(str, Enum):
 
 class SmartReframeParams(Schema):
     mode: SmartReframeMode = SmartReframeMode.STANDARD
-    # Optional target aspect ratio e.g. "1:1", "4:3" — defaults to square
     aspect_ratio: str = "1:1"
+    image_url: str | None = None
 
 
 class ReframeResponse(Schema):
