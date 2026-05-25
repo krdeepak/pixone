@@ -82,6 +82,9 @@ MEDIA_ROOT = BASE_DIR / "storage" / "media"
 _cors_origins = config("CORS_ALLOWED_ORIGINS", default="")
 CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_origins.split(",") if o.strip()]
 
+# Base URL of this backend — used by local storage to build absolute media URLs
+BACKEND_URL = config("BACKEND_URL", default="")
+
 # Image storage backend: "local" | "s3"
 IMAGE_STORAGE_BACKEND = config("IMAGE_STORAGE_BACKEND", default="local")
 
