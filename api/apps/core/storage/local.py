@@ -10,8 +10,7 @@ class LocalImageStorage:
         dest = Path(settings.MEDIA_ROOT) / relative
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(data)
-        base = settings.BACKEND_URL.rstrip("/") if settings.BACKEND_URL else ""
-        return f"{base}{settings.MEDIA_URL}{relative}"
+        return f"{settings.MEDIA_URL}{relative}"
 
 
 _: ImageStorage = LocalImageStorage()
