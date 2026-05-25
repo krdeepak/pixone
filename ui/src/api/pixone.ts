@@ -32,9 +32,13 @@ export interface FaceDetectionResponse {
   face_count: number;
 }
 
-export async function reframeImage(image: File, params: ReframeParams): Promise<ReframeResponse> {
+export async function reframeImage(image: File | string, params: ReframeParams): Promise<ReframeResponse> {
   const form = new FormData();
-  form.append("image", image);
+  if (typeof image === "string") {
+    form.append("image_url", image);
+  } else {
+    form.append("image", image);
+  }
   form.append("x", String(Math.round(params.x)));
   form.append("y", String(Math.round(params.y)));
   form.append("width", String(Math.round(params.width)));
@@ -56,12 +60,16 @@ export interface SmartReframeResponse {
 }
 
 export async function smartReframeImage(
-  image: File,
+  image: File | string,
   mode: SmartReframeMode,
   aspect_ratio: string
 ): Promise<SmartReframeResponse> {
   const form = new FormData();
-  form.append("image", image);
+  if (typeof image === "string") {
+    form.append("image_url", image);
+  } else {
+    form.append("image", image);
+  }
   form.append("mode", mode);
   form.append("aspect_ratio", aspect_ratio);
   const { data } = await client.post<SmartReframeResponse>("/reframe/smart/", form);

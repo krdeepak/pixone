@@ -18,7 +18,8 @@ export default function ReframePage() {
 
   // shared
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);   // preview URL (blob or typed)
+  const [typedUrl, setTypedUrl] = useState("");                     // raw text in the URL input
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,17 +38,29 @@ export default function ReframePage() {
     if (!file) return;
     setImageFile(file);
     setImageUrl(URL.createObjectURL(file));
+    setTypedUrl("");
     setResultUrl(null);
     setError(null);
     setFaceCount(null);
   };
 
+  const handleUrlLoad = () => {
+    if (!typedUrl.trim()) return;
+    setImageFile(null);
+    setImageUrl(typedUrl.trim());
+    setResultUrl(null);
+    setError(null);
+    setFaceCount(null);
+  };
+
+  const imageSource: File | string | null = imageFile ?? (typedUrl.trim() ? typedUrl.trim() : null);
+
   const handleManualSubmit = async () => {
-    if (!imageFile || !crop.width || !crop.height) return;
+    if (!imageSource || !crop.width || !crop.height) return;
     setLoading(true);
     setError(null);
     try {
-      const result = await reframeImage(imageFile, crop);
+      const result = await reframeImage(imageSource, crop);
       setResultUrl(result.output_url);
     } catch {
       setError("Reframe failed. Check the API server.");
@@ -57,12 +70,12 @@ export default function ReframePage() {
   };
 
   const handleSmartSubmit = async () => {
-    if (!imageFile) return;
+    if (!imageSource) return;
     setLoading(true);
     setError(null);
     setFaceCount(null);
     try {
-      const result = await smartReframeImage(imageFile, smartMode, smartAspect);
+      const result = await smartReframeImage(imageSource, smartMode, smartAspect);
       setResultUrl(result.output_url);
       setFaceCount(result.face_count);
     } catch (err: any) {
@@ -77,14 +90,36 @@ export default function ReframePage() {
       <h1 className="text-2xl font-semibold mb-6">Reframe</h1>
 
       {/* Upload */}
-      <div className="mb-6">
-        <label className="block text-sm text-gray-400 mb-2">Upload Image</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className="text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-indigo-600 file:text-white hover:file:bg-indigo-700"
-        />
+      <div className="mb-6 flex flex-wrap gap-4 items-end">
+        <div>
+          <label className="block text-sm text-gray-400 mb-2">Upload Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-indigo-600 file:text-white hover:file:bg-indigo-700"
+          />
+        </div>
+        <div className="flex-1 min-w-64">
+          <label className="block text-sm text-gray-400 mb-2">Or paste image URL</label>
+          <div className="flex gap-2">
+            <input
+              type="url"
+              value={typedUrl}
+              onChange={(e) => setTypedUrl(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleUrlLoad()}
+              placeholder="https://..."
+              className="flex-1 px-3 py-2 text-sm bg-gray-800 border border-gray-700 rounded text-gray-200 placeholder-gray-500 focus:outline-none focus:border-indigo-500"
+            />
+            <button
+              onClick={handleUrlLoad}
+              disabled={!typedUrl.trim()}
+              className="px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 disabled:opacity-40 rounded"
+            >
+              Load
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Tab toggle */}
